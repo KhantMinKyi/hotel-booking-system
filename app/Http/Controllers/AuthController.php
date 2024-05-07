@@ -16,7 +16,7 @@ class AuthController extends Controller
         ]);
         $user = User::where('email', $request->email)->first();
         if (!$user) {
-            return redirect('/')->with('error', 'Incorrect User Name');
+            return redirect('/user/login-form')->with('error', 'Incorrect User Name');
         }
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->with('error', 'Password is Wrong , Try Again');
