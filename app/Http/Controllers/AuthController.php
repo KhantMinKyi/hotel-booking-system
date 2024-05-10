@@ -41,11 +41,11 @@ class AuthController extends Controller
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->with('error', 'Password is Wrong , Try Again');
         }
-        auth()->login($user);
         if ($user->type == 'admin') {
+            auth()->login($user);
             return redirect('/admin');
         } {
-            return 'Error';
+            return redirect('/admin/login-form')->with('error', 'Not Authenticated ');
         }
     }
     public function logout(Request $request)

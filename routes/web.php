@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +30,8 @@ Route::prefix('admin')->group(function () {
     Route::middleware('is_admin')->group(function () {
         Route::get('/', function () {
             return view('admin.dashboard');
-        });
+        })->name('admin.index');
+        Route::resource('amenity', AmenityController::class);
     });
 });
 
