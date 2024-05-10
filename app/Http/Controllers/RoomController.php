@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amenity;
+use App\Models\Room;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class RoomController extends Controller
 {
@@ -11,7 +15,8 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        $rooms = Room::with(['room_type', 'amenity'])->get();
+        return view('admin.room.room_index', compact('rooms'));
     }
 
     /**
@@ -19,7 +24,9 @@ class RoomController extends Controller
      */
     public function create()
     {
-        //
+        $amenities = Amenity::all();
+        $room_types = RoomType::all();
+        return view('admin.room.room_create', compact(['amenities', 'room_types']));
     }
 
     /**
@@ -27,7 +34,24 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'room_number' => 'required|string',
+            'room_size' => 'required|string',
+            'amenity_id' => 'required|numeric',
+            'room_type_id' => 'required|numeric',
+            'location' => 'required|string',
+            'accessibility' => 'required|string',
+            'bed_type' => 'required|string',
+            'bathroom_type' => 'required|string',
+            'can_extra_bad' => 'required|numeric',
+            'living_room_available' => 'required|numeric',
+            'kitchen_available' => 'required|numeric',
+            'corridor_available' => 'required|numeric',
+            'can_smoke' => 'required|numeric',
+            'is_smart_tv' => 'required|numeric',
+        ]);
+        Room::create($validated);
+        return redirect()->route('room.index');
     }
 
     /**
@@ -43,7 +67,13 @@ class RoomController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $room = Room::with(['amenity', 'room_type'])->where('room_id', $id)->find($id);
+        $amenities = Amenity::all();
+        $room_types = RoomType::all();
+        if (!$room) {
+            return redirect()->back();
+        }
+        return view('admin.room.room_edit', compact(['room', 'amenities', 'room_types']));
     }
 
     /**
@@ -51,7 +81,28 @@ class RoomController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $room = Room::find($id);
+        if (!$room) {
+            return redirect()->back();
+        }
+        $validated = $request->validate([
+            'room_number' => ['required', 'string', Rule::unique('rooms', 'room_number')->ignore($id, 'room_id')],
+            'room_size' => 'required|string',
+            'amenity_id' => 'required|numeric',
+            'room_type_id' => 'required|numeric',
+            'location' => 'required|string',
+            'accessibility' => 'required|string',
+            'bed_type' => 'required|string',
+            'bathroom_type' => 'required|string',
+            'can_extra_bad' => 'required|numeric',
+            'living_room_available' => 'required|numeric',
+            'kitchen_available' => 'required|numeric',
+            'corridor_available' => 'required|numeric',
+            'can_smoke' => 'required|numeric',
+            'is_smart_tv' => 'required|numeric',
+        ]);
+        $room->update($validated);
+        return redirect()->route('room.index');
     }
 
     /**

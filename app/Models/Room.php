@@ -13,6 +13,7 @@ class Room extends Model
         'room_number',
         'room_size',
         'amenity_id',
+        'room_type_id',
         'location',
         'accessibility',
         'bed_type',
@@ -26,10 +27,10 @@ class Room extends Model
     ];
     public function amenity()
     {
-        return $this->belongsTo(Amenity::class);
+        return $this->belongsTo(Amenity::class, 'amenity_id');
     }
     public function room_type()
     {
-        return $this->belongsTo(RoomType::class);
+        return $this->belongsTo(RoomType::class, 'room_type_id');
     }
 }
