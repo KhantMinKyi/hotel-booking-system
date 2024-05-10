@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome.index');
 
 // Admin
 Route::prefix('admin')->group(function () {
@@ -49,7 +49,7 @@ Route::prefix('user')->group(function () {
     Route::middleware('is_user')->group(function () {
         Route::get('/', function () {
             return view('user.dashboard');
-        });
+        })->name('user.index');
     });
 });
 

@@ -12,11 +12,12 @@
 <body>
 
 
-    <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed w-full">
+    <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed w-full z-10">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
-            <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+            <a href="{{ route('welcome.index') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="{{ asset('hotel_logo.png') }}" class="h-8" alt="My Vintage Hotel Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">My Vintage
+                    Hotel</span>
             </a>
             <div class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <a href="/user/login-form"
@@ -39,7 +40,24 @@
             </div>
         </div>
     </nav>
-    <div class=" h-96 bg-black">
+    {{-- <div class="h-96 bg-cover bg-center" style="background-image: url('{{ asset('hotel_banner.jpg') }}');">
+    </div> --}}
+    <div class="relative h-96 ">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('{{ asset('hotel_banner.jpg') }}'); filter: blur(2px);"></div>
+
+        <!-- Blurred Background Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+
+        <!-- Text Container -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-white text-center">
+                <h1 class="text-4xl font-bold">My Vintage Hotel</h1>
+                <p class="mt-4 text-lg">Select Your Rooms Here ! </p>
+                <p class="mt-4 text-sm text-opacity-60 text-white">Hurry Up And Contact With Us for More Detail ! </p>
+            </div>
+        </div>
     </div>
     <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
 
