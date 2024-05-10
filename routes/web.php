@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,8 @@ Route::prefix('admin')->group(function () {
             return view('admin.dashboard');
         })->name('admin.index');
         Route::resource('amenity', AmenityController::class);
+        Route::resource('room_type', RoomTypeController::class);
+        Route::resource('room', RoomController::class);
     });
 });
 

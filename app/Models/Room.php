@@ -24,4 +24,12 @@ class Room extends Model
         'can_smoke',
         'is_smart_tv',
     ];
+    public function amenity()
+    {
+        return $this->belongsTo(Amenity::class);
+    }
+    public function room_type()
+    {
+        return $this->belongsTo(RoomType::class);
+    }
 }

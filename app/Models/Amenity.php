@@ -14,4 +14,8 @@ class Amenity extends Model
         'amenity_description',
         'amenity_score',
     ];
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 }

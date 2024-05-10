@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 
 class RoomTypeController extends Controller
@@ -11,7 +12,9 @@ class RoomTypeController extends Controller
      */
     public function index()
     {
-        //
+        $room_types = RoomType::all();
+
+        return view('admin.room_type.room_type_index', compact('room_types'));
     }
 
     /**
@@ -19,7 +22,7 @@ class RoomTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.room_type.room_type_create');
     }
 
     /**
@@ -27,7 +30,13 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'room_type' => 'required|string',
+            'room_type_price' => 'required|numeric',
+            'room_type_score' => 'required|numeric',
+        ]);
+        RoomType::create($validated);
+        return redirect()->route('room_type.index');
     }
 
     /**
@@ -43,7 +52,11 @@ class RoomTypeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $room_type = RoomType::find($id);
+        if (!$room_type) {
+            return redirect()->back();
+        }
+        return view('admin.room_type.room_type_edit', compact('room_type'));
     }
 
     /**
@@ -51,7 +64,17 @@ class RoomTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $room_type = RoomType::find($id);
+        if (!$room_type) {
+            return redirect()->back();
+        }
+        $validated = $request->validate([
+            'room_type' => 'required|string',
+            'room_type_price' => 'required|numeric',
+            'room_type_score' => 'required|numeric',
+        ]);
+        $room_type->update($validated);
+        return redirect()->route('room_type.index');
     }
 
     /**
