@@ -53,4 +53,4 @@ Route::prefix('user')->group(function () {
     });
 });
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

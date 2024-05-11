@@ -59,7 +59,11 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $room = Room::with(['amenity', 'room_type'])->where('room_id', $id)->find($id);
+        if (!$room) {
+            return redirect()->back();
+        }
+        return view('admin.room.room_detail', compact('room'));
     }
 
     /**
