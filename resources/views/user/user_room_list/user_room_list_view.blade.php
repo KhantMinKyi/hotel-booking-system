@@ -20,7 +20,7 @@
     <div class="flex justify-center text-lg bg-gray-100 pt-2 font-bold">
         Select Your Filter
     </div>
-    <form class="flex pt-6 pb-4  justify-center bg-gray-100" action="{{ route('user_room_list.search_view') }}"
+    <form class="flex pt-6 pb-4  justify-center bg-gray-100" action="{{ route('user_room_booking.search_view') }}"
         method="POST">
         @csrf
         {{-- <div class="me-4">
@@ -66,7 +66,6 @@
             </div>
         </div>
         <div class="me-4">
-            <label for="room_count" class="sr-only">Search</label>
             <div class=" mx-6" style="width: 150px;">
                 <input type="number" name="room_count"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -131,12 +130,4 @@
             </div>
         @endforeach
     </div>
-    <script>
-        const rangeInput = document.getElementById('labels-range-input');
-        const rangeValue = document.getElementById('range-value');
-
-        rangeInput.addEventListener('input', () => {
-            rangeValue.textContent = `Price: 0 -  ${rangeInput.value} Kyats`;
-        });
-    </script>
 @endsection

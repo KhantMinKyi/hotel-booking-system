@@ -20,79 +20,138 @@
     </div>
     <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
 
-
-        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-            </a>
-            <div class="p-5">
+        @foreach ($rooms as $room)
+            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy
-                        technology acquisitions 2021</h5>
+                    <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
                 </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology
-                    acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M1 5h12m0 0L9 1m4 4L9 9" />
-                    </svg>
-                </a>
+                <div class="p-5">
+                    <div class="flex flex-col justify-between p-4 leading-normal">
+                        <h5 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            {{ $room->room_number }}
+                        </h5>
+                        <span class="text-md text-gray-600">
+                            {{ $room->room_type->room_type }}
+                        </span>
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div class="mb-2">
+                            <p class="mb-2 text-lg font-bold text-gray-700 dark:text-gray-400">Amenities</p>
+                            <span>
+                                {{ $room->amenity->amenity_description }}
+                            </span>
+                            <hr class="mt-1">
+                        </div>
+                        <div class="mb-2">
+                            <p class="mb-1 font-bold text-xl">Accessibility</p>
+                            <span>
+                                {{ $room->accessibility }}
+                            </span>
+                            <hr class="mt-1">
+                        </div>
+                        <div class="mb-2">
+                            <p class="mb-1 font-bold text-lg">Room Size</p>
+                            <span>
+                                {{ $room->room_size }}
+                            </span>
+                            <hr class="mt-1">
+                        </div>
+                        <div class="mb-2">
+                            <p class="mb-1 font-bold text-lg">Location</p>
+                            <span>
+                                {{ $room->location }}
+                            </span>
+                            <hr class="mt-1">
+                        </div>
+                        <div class="grid grid-cols-2">
+                            <div class="mb-2">
+                                <p class="mb-1 font-bold text-lg">Bed Type</p>
+                                <span>
+                                    {{ $room->bed_type }}
+                                </span>
+                                <hr class="mt-1">
+                            </div>
+                            <div class="mb-2">
+                                <p class="mb-1 font-bold text-lg">Bathroom</p>
+                                <span>
+                                    {{ $room->bathroom_type }}
+                                </span>
+                                <hr class="mt-1">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 mb-2">
+                            <div>
+                                <p class="mb-1 font-bold text-lg">Extra
+                                    @if ($room->can_extra_bad == 1)
+                                        <i class="fa-solid fa-check"></i>
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
+                                </p>
+                                <hr class="mt-4">
+                            </div>
+                            <div>
+                                <p class="mb-1 font-bold text-lg">Living-Room
+                                    @if ($room->living_room_available == 1)
+                                        <i class="fa-solid fa-check"></i>
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
+                                </p>
+                                <hr class="mt-4">
+                            </div>
+                            <div>
+                                <p class="mb-1 font-bold text-lg">Kitchen
+                                    @if ($room->kitchen_available == 1)
+                                        <i class="fa-solid fa-check"></i>
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
+                                </p>
+                                <hr class="mt-4">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 mb-2">
+                            <div>
+                                <p class="mb-1 font-bold text-lg">Corridor
+                                    @if ($room->corridor_available == 1)
+                                        <i class="fa-solid fa-check"></i>
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
+                                </p>
+                                <hr class="mt-4">
+                            </div>
+                            <div>
+                                <p class="mb-1 font-bold text-lg">Smoke
+                                    @if ($room->can_smoke == 1)
+                                        <i class="fa-solid fa-check"></i>
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
+                                </p>
+                                <hr class="mt-4">
+                            </div>
+                            <div>
+                                <p class="mb-1 font-bold text-lg">Smart Tv
+                                    @if ($room->is_smart_tv == 1)
+                                        <i class="fa-solid fa-check"></i>
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
+                                </p>
+                                <hr class="mt-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
-
-        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-            </a>
-            <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy
-                        technology acquisitions 2021</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology
-                    acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M1 5h12m0 0L9 1m4 4L9 9" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-
-
-
-        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-            </a>
-            <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy
-                        technology acquisitions 2021</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology
-                    acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M1 5h12m0 0L9 1m4 4L9 9" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-
+        @endforeach
 
     </div>
 @endsection

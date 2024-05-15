@@ -84,4 +84,10 @@ class RoomTypeController extends Controller
     {
         //
     }
+
+    public function dashboradIndex()
+    {
+        $room_types = RoomType::with('rooms')->limit(3)->get();
+        return view('welcome', compact('room_types'));
+    }
 }

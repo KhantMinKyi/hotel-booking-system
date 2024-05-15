@@ -27,6 +27,6 @@ class isUser
         }
 
         // If not an admin, redirect with an error message
-        return redirect('/user/login-form')->with('error', 'You are not authorized to access this page.');
+        return redirect('/')->with('error', 'You are not authorized to access this page.');
     }
 }

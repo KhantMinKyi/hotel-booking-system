@@ -20,7 +20,7 @@
     <div class="flex justify-center text-lg bg-gray-100 pt-2 font-bold">
         Select Your Filter
     </div>
-    <form class="flex pt-6 pb-4  justify-center bg-gray-100" action="{{ route('user_room_list.search_view') }}"
+    <form class="flex pt-6 pb-4  justify-center bg-gray-100" action="{{ route('user_room_booking.search_view') }}"
         method="POST">
         @csrf
         <div class="me-4">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoomBookingController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\UserRoomListController;
@@ -18,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome.index');
+Route::get('/', [RoomTypeController::class, 'dashboradIndex'])->name('welcome.index');
 
 // Admin
 Route::prefix('admin')->group(function () {
@@ -48,12 +47,14 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [AuthController::class, 'userLogin']);
     // User Middleware
     Route::middleware('is_user')->group(function () {
-        Route::get('/', function () {
-            return view('user.dashboard');
-        })->name('user.index');
+        //     Route::get('/', function () {
+        //         return view('user.dashboard');
+        //     })->name('user.index');
+        Route::resource('user_room_list', UserRoomListController::class);
+        Route::resource('user_room_booking', RoomBookingController::class);
+        Route::get('/', [UserRoomListController::class, 'userDashboard'])->name('user.index');
+        Route::post('user_room_booking/search_view', [RoomBookingController::class, 'searchRoom'])->name('user_room_booking.search_view');
     });
-    Route::resource('user_room_list', UserRoomListController::class);
-    Route::post('user_room_list/search_view', [UserRoomListController::class, 'searchRoom'])->name('user_room_list.search_view');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
