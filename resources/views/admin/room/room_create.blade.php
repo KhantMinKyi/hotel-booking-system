@@ -100,7 +100,7 @@
                             required>
                             <option selected disabled>Choose One</option>
                             <option value="1">Yes</option>
-                            <option value="2">No</option>
+                            <option value="0">No</option>
                         </select>
 
                     </div>
@@ -112,7 +112,7 @@
                             required>
                             <option selected disabled>Choose One</option>
                             <option value="1">Yes</option>
-                            <option value="2">No</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div class="mb-5 ">
@@ -123,7 +123,7 @@
                             required>
                             <option selected disabled>Choose One</option>
                             <option value="1">Yes</option>
-                            <option value="2">No</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                             required>
                             <option selected disabled>Choose One</option>
                             <option value="1">Yes</option>
-                            <option value="2">No</option>
+                            <option value="0">No</option>
                         </select>
 
                     </div>
@@ -148,7 +148,7 @@
                             required>
                             <option selected disabled>Choose One</option>
                             <option value="1">Yes</option>
-                            <option value="2">No</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div class="mb-5 ">
@@ -159,7 +159,7 @@
                             required>
                             <option selected disabled>Choose One</option>
                             <option value="1">Yes</option>
-                            <option value="2">No</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                 </div>

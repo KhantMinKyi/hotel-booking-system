@@ -4,6 +4,7 @@ use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
+use App\Http\Controllers\UserRoomListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +52,8 @@ Route::prefix('user')->group(function () {
             return view('user.dashboard');
         })->name('user.index');
     });
+    Route::resource('user_room_list', UserRoomListController::class);
+    Route::post('user_room_list/search_view', [UserRoomListController::class, 'searchRoom'])->name('user_room_list.search_view');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

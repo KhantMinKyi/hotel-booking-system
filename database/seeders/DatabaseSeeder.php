@@ -15,14 +15,14 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::create([
-            'name' => 'Test Admin',
-            'email' => 'admin@example.com',
-            'username' => 'admin',
+            'name' => 'Test User',
+            'email' => 'user@gmail.com',
+            'username' => 'user',
             'password' => bcrypt('password'),
             'dob' => '1999-06-28',
-            'type' => 'admin',
+            'type' => 'user',
             'address' => 'address',
-            'nrc' => '12/PABATA(N)123123',
+            'nrc' => '12/PABATA(N)456456',
             'gender' => 'male',
             'phone' => '1234567890',
         ]);
