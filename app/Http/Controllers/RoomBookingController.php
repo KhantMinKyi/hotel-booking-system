@@ -121,6 +121,8 @@ class RoomBookingController extends Controller
                 'room_type_data' => $room_type_data,
                 'booked_room_count' => $room_data['booked_room_count'],
                 'total_room_count' => $room_data['total_room_count'],
+                'from_date' => $from_date,
+                'to_date' => $to_date,
             ]);
         }
         // return $room_data_array;

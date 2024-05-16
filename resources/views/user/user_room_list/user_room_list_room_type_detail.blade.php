@@ -1,13 +1,37 @@
 @extends('user.layout')
 
 @section('content')
+    <div class="my-4 flex justify-evenly">
+        <div class="inline-flex rounded-md shadow-sm" role="group">
+            <button type="button"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                <i class="fa-solid fa-arrow-right w-3 h-3 me-2"></i>
+                {{ $rooms['rooms'][0]['from_date'] }}
+            </button>
+            <button type="button"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                <i class="fa-solid fa-arrow-left w-3 h-3 me-2"></i>
+                {{ $rooms['rooms'][0]['to_date'] }}
+            </button>
+        </div>
+        <div>
+            <button type="button"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                <i class="fa-solid fa-circle-check w-3 h-3 me-2"></i>
+                Book Rooms
+            </button>
+        </div>
+    </div>
     <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
 
-        @foreach ($rooms as $room)
+        @foreach ($rooms['rooms'] as $room)
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-                </a>
+                <div class="flex justify-between">
+                    <a href="#">
+                        <img class="rounded-t-lg w-10 m-2" src="{{ asset('hotel_logo.png') }}" alt="" />
+                    </a>
+                    <input type="checkbox" class="m-4">
+                </div>
                 <div class="p-5">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                         <h5 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

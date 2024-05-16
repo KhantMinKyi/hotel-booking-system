@@ -71,4 +71,42 @@ class UserRoomListController extends Controller
     {
         //
     }
+    public function roomTypeDetail(Request $request)
+    {
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $room_type_id = $request->room_type_id;
+
+        $data = [];
+        $rooms = RoomType::with('rooms')->where('room_type_id', $room_type_id)->first();
+
+        $booked_rooms = RoomBooking::with('room')
+            ->where(function ($query) use ($from_date, $to_date) {
+                $query->whereBetween('from_date', [$from_date, $to_date])
+                    ->orWhere(function ($query) use ($from_date, $to_date) {
+                        $query->where('from_date', '=', $from_date)
+                            ->where('to_date', '!=', $to_date);
+                    });
+            })
+            ->where('from_date', '!=', $to_date)
+            ->get()->groupBy('room_id');
+
+        // Get all Room Type
+
+        // array_push($rooms['rooms'], [
+        //     'from_date' => $from_date,
+        //     'to_date' => $to_date,
+        // ]);
+        $rooms['rooms'][0]['from_date'] = $from_date;
+        $rooms['rooms'][0]['to_date'] = $to_date;
+        foreach ($booked_rooms as $room_id => $booked_room) {
+            foreach ($rooms['rooms'] as $key => $room) {
+                if ($room->room_id == $room_id) {
+                    unset($rooms['rooms'][$key]);
+                }
+            }
+        }
+        // return $rooms;
+        return view('user.user_room_list.user_room_list_room_type_detail', compact('rooms'));
+    }
 }

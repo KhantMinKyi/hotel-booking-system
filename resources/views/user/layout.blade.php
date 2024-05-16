@@ -61,6 +61,23 @@
             </div>
         </div>
     </nav>
+    <div class="relative h-96 ">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('{{ asset('hotel_banner.jpg') }}'); filter: blur(2px);"></div>
+
+        <!-- Blurred Background Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+
+        <!-- Text Container -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-white text-center">
+                <h1 class="text-4xl font-bold">My Vintage Hotel</h1>
+                <p class="mt-4 text-lg">Select Your Rooms Here ! </p>
+                <p class="mt-4 text-sm text-opacity-60 text-white">Hurry Up And Contact With Us for More Detail ! </p>
+            </div>
+        </div>
+    </div>
     @yield('content')
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
