@@ -128,4 +128,54 @@ class RoomBookingController extends Controller
         // return $room_data_array;
         return view('user.user_room_list.user_room_list_search_view', compact(['room_data_array', 'room_types', 'from_date', 'to_date', 'room_count']));
     }
+    public function searchRoomPriceView(Request $request)
+    {
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $room_count = $request->room_count;
+        $room_type_id = $request->room_type_id;
+        $price_range = $request->price_range;
+        $data = [];
+        $rooms = RoomType::with('rooms')
+            ->when($room_type_id, function ($query) use ($room_type_id) {
+                return $query->where('room_type_id', $room_type_id);
+            })
+            ->when($price_range, function ($query) use ($price_range) {
+                return $query->where('room_type_price', '<', $price_range);
+            })
+            ->get();
+
+        $booked_rooms = RoomBooking::with('room')
+            ->where(function ($query) use ($from_date, $to_date) {
+                $query->whereBetween('from_date', [$from_date, $to_date])
+                    ->orWhere(function ($query) use ($from_date, $to_date) {
+                        $query->where('from_date', '=', $from_date)
+                            ->where('to_date', '!=', $to_date);
+                    });
+            })
+            ->where('from_date', '!=', $to_date)
+            ->get()->groupBy('room_id');
+
+        $room_data_array = [];
+        foreach ($rooms as $room) {
+            foreach ($room['rooms'] as $converted_room_data) {
+                $room_data_array[] = $converted_room_data;
+            }
+        }
+
+        foreach ($booked_rooms as $room_id => $booked_room) {
+            foreach ($room_data_array as $key => $room_data) {
+                if ($room_data->room_id == $room_id) {
+                    unset($room_data_array[$key]);
+                }
+            }
+        }
+        $room_data = [];
+        $room_data['rooms'] = array_values($room_data_array);
+        $room_data['type']['from_date'] = $from_date;
+        $room_data['type']['to_date'] = $to_date;
+        $room_data['type']['room_count'] = $room_count;
+        $room_data['type']['price_range'] = $price_range;
+        return view('user.user_room_list.user_room_list_search_price_view', compact('room_data'));
+    }
 }

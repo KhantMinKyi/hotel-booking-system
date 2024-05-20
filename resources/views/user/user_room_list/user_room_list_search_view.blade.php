@@ -3,7 +3,7 @@
     <div class="flex justify-center text-lg bg-gray-100 pt-2 font-bold">
         Select Your Filter
     </div>
-    <form class="flex pt-6 pb-4  justify-center bg-gray-100" action="{{ route('user_room_booking.search_view') }}"
+    <form class="flex pt-6 pb-4  justify-center bg-gray-100" action="{{ route('user_room_booking.search_room_price_view') }}"
         method="POST">
         @csrf
         <div class="me-4">
@@ -36,7 +36,9 @@
 
         {{-- Date Range Filter --}}
 
-
+        <input type="hidden" name="from_date" value="{{ $from_date }}">
+        <input type="hidden" name="to_date" value="{{ $to_date }}">
+        <input type="hidden" name="room_count" value="{{ $room_count }}">
         <div>
             <button type="submit"
                 class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -69,7 +71,9 @@
         </div>
 
     </div>
+
     <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
+
         @foreach ($room_data_array as $room_data)
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
