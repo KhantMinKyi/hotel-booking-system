@@ -16,7 +16,10 @@ class RoomBooking extends Model
         'booking_user_phone',
         'from_date',
         'to_date',
-        'created_user_id'
+        'created_user_id',
+        'status',
+        'deposit_type',
+        'deposit_amount',
     ];
     public function room()
     {

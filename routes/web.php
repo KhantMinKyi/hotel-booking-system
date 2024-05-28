@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RoomBookingController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
@@ -30,9 +31,7 @@ Route::prefix('admin')->group(function () {
 
     // Admin Middleware
     Route::middleware('is_admin')->group(function () {
-        Route::get('/', function () {
-            return view('admin.dashboard');
-        })->name('admin.index');
+        Route::get('/', [LocationController::class, 'adminDashboard'])->name('admin.index');
         Route::resource('amenity', AmenityController::class);
         Route::resource('room_type', RoomTypeController::class);
         Route::resource('room', RoomController::class);

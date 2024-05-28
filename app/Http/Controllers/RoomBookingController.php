@@ -154,6 +154,7 @@ class RoomBookingController extends Controller
                     });
             })
             ->where('from_date', '!=', $to_date)
+            ->where('status', 'approved')
             ->get()->groupBy('room_id');
 
         $room_data_array = [];
