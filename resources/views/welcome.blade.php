@@ -84,7 +84,9 @@
                         <p class="mb-1 text-xl font-bold text-gray-700 dark:text-gray-400">Accessibility -
                         </p>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                            {{ $room_type->rooms[0]->accessibility }}
+                            @if (count($room_type->rooms) > 0)
+                                {{ $room_type->rooms[0]->accessibility }}
+                            @endif
                         </p>
                         <hr class="my-2">
                     </div>
@@ -92,7 +94,9 @@
                         <p class="mb-1 text-xl font-bold text-gray-700 dark:text-gray-400">Amenities -
                         </p>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                            {{ $room_type->rooms[0]->amenity->amenity_description }}
+                            @if (count($room_type->rooms) > 0)
+                                {{ $room_type->rooms[0]->amenity->amenity_description }}
+                            @endif
                         </p>
                         <hr class="my-2">
                     </div>

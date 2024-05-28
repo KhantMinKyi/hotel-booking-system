@@ -15,7 +15,6 @@ class UserRoomListController extends Controller
     public function index()
     {
         $room_types = RoomType::with('rooms')->get();
-
         return view('user.user_room_list.user_room_list_view', compact('room_types'));
     }
     public function userDashboard()
