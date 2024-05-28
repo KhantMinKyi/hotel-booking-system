@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('content')
     <div class=" flex flex-auto">
-        <div class=" w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class=" w-1/2 m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <form class="max-w-sm mx-auto" action="{{ route('room_type.store') }}" method="POST">
                 @csrf
                 <div class="mb-5">
@@ -32,9 +32,34 @@
 
         </div>
         <div class="m-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos sit magnam, error officiis nam dicta consequuntur
-            temporibus consequatur porro, quia minus nostrum veritatis accusantium debitis quisquam sunt. Optio, inventore
-            eligendi.
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Room Type Form User Manual</h1>
+            <section class="mb-6">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Room Type</h2>
+                    <p class="text-gray-600 mb-4">Please write the name of the room type in the "Room Type" field. Examples
+                        of room types include:</p>
+                    <ul class="list-disc list-inside text-gray-600">
+                        <li>Standard Room</li>
+                        <li>Deluxe Room</li>
+                        <li>Suite</li>
+                    </ul>
+                </div>
+            </section>
+            <section class="mb-6">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Room Type Price</h2>
+                    <p class="text-gray-600">In the "Room Type Price" field, please enter the price of the room type. This
+                        should be in the currency of your choice (e.g., USD, EUR).</p>
+                </div>
+            </section>
+            <section>
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Room Type Score</h2>
+                    <p class="text-gray-600">Please write the score for the room type in the "Room Type Score" field. This
+                        score should reflect the rating of the room type, typically on a scale of 1 to 10.</p>
+                </div>
+            </section>
+
         </div>
     </div>
 @endsection

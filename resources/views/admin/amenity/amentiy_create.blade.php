@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('content')
     <div class=" flex flex-auto">
-        <div class=" w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class=" w-1/2  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <form class="max-w-sm mx-auto" action="{{ route('amenity.store') }}" method="POST">
                 @csrf
                 <div class="mb-5">
@@ -31,9 +31,28 @@
 
         </div>
         <div class="m-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos sit magnam, error officiis nam dicta consequuntur
-            temporibus consequatur porro, quia minus nostrum veritatis accusantium debitis quisquam sunt. Optio, inventore
-            eligendi.
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Amenity Form User Manual</h1>
+            <section class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">Amenity Name</h2>
+                <p class="text-gray-600 mb-4">Please write the name of the amenity in the "Amenity Name" field. Examples of
+                    amenity names include:</p>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Superior Amenity</li>
+                    <li>Deluxe Amenity</li>
+                    <li>Tech Amenity</li>
+                </ul>
+            </section>
+            <section class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">Amenity Description
+                </h2>
+                <p class="text-gray-600">In the "Amenity Description" field, please provide more details about the amenity.
+                    This can include its features, benefits, and any other relevant information.</p>
+            </section>
+            <section class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">Amenity Score</h2>
+                <p class="text-gray-600">Please write the score for that amenity from the hotel in the "Amenity Score"
+                    field. This score should reflect the hotel's rating of the amenity on a scale of 1 to 10.</p>
+            </section>
         </div>
     </div>
 @endsection
