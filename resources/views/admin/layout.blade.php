@@ -98,6 +98,19 @@
 
                                 </ul>
                             </div>
+                            <div class="p-4 text-gray-900 dark:text-white">
+                                <ul class="space-y-4">
+                                    <li>
+                                        <a href="{{ route('user_list.index') }}"
+                                            class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group">
+                                            <span class="sr-only">Users Management</span>
+                                            <i class="fa-solid fa-users-gear me-2"></i>
+                                            Users Management
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </div>
                     </li>
                     <li>

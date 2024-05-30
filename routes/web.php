@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RoomBookingController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoomListController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,13 +29,13 @@ Route::prefix('admin')->group(function () {
         return view('admin.login');
     });
     Route::post('/login', [AuthController::class, 'adminLogin']);
-
     // Admin Middleware
     Route::middleware('is_admin')->group(function () {
         Route::get('/', [LocationController::class, 'adminDashboard'])->name('admin.index');
         Route::resource('amenity', AmenityController::class);
         Route::resource('room_type', RoomTypeController::class);
         Route::resource('room', RoomController::class);
+        Route::resource('user_list', UserController::class);
     });
 });
 
@@ -46,9 +47,6 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [AuthController::class, 'userLogin']);
     // User Middleware
     Route::middleware('is_user')->group(function () {
-        //     Route::get('/', function () {
-        //         return view('user.dashboard');
-        //     })->name('user.index');
         Route::get('/', [UserRoomListController::class, 'userDashboard'])->name('user.index');
         Route::resource('user_room_list', UserRoomListController::class);
         Route::resource('user_room_booking', RoomBookingController::class);
