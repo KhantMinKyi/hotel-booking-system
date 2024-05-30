@@ -8,6 +8,7 @@
                 <a href="#">
                     <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
                 </a>
+                <img src="{{ asset('/images/' . $room->room_photo) }}" alt="" class="rounded-t-md">
                 <div class="p-5">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                         <h5 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

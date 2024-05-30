@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('amenity_id')->constrained('amenities', 'amenity_id')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('room_type_id')->constrained('room_types', 'room_type_id')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('location');
+            $table->string('room_photo');
             $table->string('accessibility');
             $table->enum('bed_type', ['single', 'double', 'twin'])->default('double');
             $table->enum('bathroom_type', ['shower', 'bathtub'])->default('shower');

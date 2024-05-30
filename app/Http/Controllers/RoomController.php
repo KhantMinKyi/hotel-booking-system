@@ -6,6 +6,7 @@ use App\Models\Amenity;
 use App\Models\Room;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
 class RoomController extends Controller
@@ -49,7 +50,13 @@ class RoomController extends Controller
             'corridor_available' => 'required|numeric',
             'can_smoke' => 'required|numeric',
             'is_smart_tv' => 'required|numeric',
+            'room_photo' => 'required|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+        $image = $request->file('room_photo');
+        $image_name = uniqid() . $image->getClientOriginalName();
+        $image->move(public_path('/images'), $image_name);
+        $validated['room_photo'] = $image_name;
+        // return $validated;
         Room::create($validated);
         return redirect()->route('room.index');
     }
@@ -89,6 +96,14 @@ class RoomController extends Controller
         if (!$room) {
             return redirect()->back();
         }
+        //check image
+        if ($file = $request->file('room_photo')) {
+            $file_name = uniqid() . $file->getClientOriginalName();
+            $file->move(public_path('/images'), $file_name);
+            File::delete(public_path('/images/' . $room->room_photo));
+        } else {
+            $file_name = $room->room_photo;
+        }
         $validated = $request->validate([
             'room_number' => ['required', 'string', Rule::unique('rooms', 'room_number')->ignore($id, 'room_id')],
             'room_size' => 'required|string',
@@ -105,6 +120,7 @@ class RoomController extends Controller
             'can_smoke' => 'required|numeric',
             'is_smart_tv' => 'required|numeric',
         ]);
+        $validated['room_photo'] = $file_name;
         $room->update($validated);
         return redirect()->route('room.index');
     }

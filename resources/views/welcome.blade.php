@@ -45,7 +45,7 @@
     <div class="relative h-96 ">
         <!-- Background Image -->
         <div class="absolute inset-0 bg-cover bg-center"
-            style="background-image: url('{{ asset('hotel_banner.jpg') }}'); filter: blur(2px);"></div>
+            style="background-image: url('{{ asset('hotel_banner.jpg') }}'); "></div>
 
         <!-- Blurred Background Overlay -->
         <div class="absolute inset-0 bg-black opacity-50"></div>

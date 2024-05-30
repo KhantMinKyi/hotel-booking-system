@@ -3,8 +3,15 @@
     <div class=" flex justify-center">
         <div
             class=" flex-grow-6 min-w-fit w-1/3 m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <form class="max-w-sm mx-auto" action="{{ route('room.store') }}" method="POST">
+            <form class="max-w-sm mx-auto" action="{{ route('room.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <div class="mb-5 me-4">
+                    <label for="room_photo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose
+                        Photo</label>
+                    <input type="file" name="room_photo"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Enter Room Number" required />
+                </div>
                 <div class="grid grid-cols-2">
                     <div class="mb-5 me-4">
                         <label for="room_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Room

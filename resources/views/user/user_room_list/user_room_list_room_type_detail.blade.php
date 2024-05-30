@@ -26,12 +26,13 @@
 
         @foreach ($rooms['rooms'] as $room)
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <div class="flex justify-between">
+                <div class="flex justify-between bg-gray-50 rounded-t-md">
                     <a href="#">
                         <img class="rounded-t-lg w-10 m-2" src="{{ asset('hotel_logo.png') }}" alt="" />
                     </a>
                     <input type="checkbox" class="m-4">
                 </div>
+                <img src="{{ asset('/images/' . $room->room_photo) }}" alt="" class="mb-2">
                 <div class="p-5">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                         <h5 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

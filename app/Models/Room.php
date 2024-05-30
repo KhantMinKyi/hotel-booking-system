@@ -16,6 +16,7 @@ class Room extends Model
         'amenity_id',
         'room_type_id',
         'location',
+        'room_photo',
         'accessibility',
         'bed_type',
         'bathroom_type',
