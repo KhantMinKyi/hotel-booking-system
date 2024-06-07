@@ -9,33 +9,25 @@
                 {{ $room_data['type']['from_date'] }}
             </button>
             <button type="button"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200  hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
                 <i class="fa-solid fa-arrow-left w-3 h-3 me-2"></i>
                 {{ $room_data['type']['to_date'] }}
             </button>
-            <button type="button"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200  hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                <i class="fa-solid fa-arrow-left w-3 h-3 me-2"></i>
-                {{ $room_data['type']['room_count'] }}
-            </button>
-            <button type="button"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                <i class="fa-solid fa-money-check-dollar w-3 h-3 me-2"></i>
-                {{ $room_data['type']['price_range'] }}
-            </button>
         </div>
         <div>
-            <button type="button"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                <i class="fa-solid fa-circle-check w-3 h-3 me-2"></i>
-                Book Rooms
-            </button>
+            <form action="{{ route('user_room_booking.create') }}" method="GET" id="roomIdsContainer">
+                <input type="hidden" name="from_date" id="" value="{{ $room_data['type']['from_date'] }}">
+                <input type="hidden" name="to_date" id="" value="{{ $room_data['type']['to_date'] }}">
+                <input type="hidden" name="room_ids" id="roomIds">
+                {{-- <input type="hidden" name="room_ids" id="roomIds" value=""> --}}
+                <button type="submit"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                    <i class="fa-solid fa-circle-check w-3 h-3 me-2"></i>
+                    Book Rooms
+                </button>
+            </form>
         </div>
     </div>
-    @if (count($room_data['rooms']) <= 0)
-        <h2 class="text-center mt-10 text-xl text-red-600">No Rooms Available For Your Search!</h2>
-        <h2 class="text-center mt-4 text-md text-gray-600">Please Choose Again!</h2>
-    @endif
     <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
 
         @foreach ($room_data['rooms'] as $room)
@@ -44,7 +36,7 @@
                     <a href="#">
                         <img class="rounded-t-lg w-10 m-2" src="{{ asset('hotel_logo.png') }}" alt="" />
                     </a>
-                    <input type="checkbox" class="m-4">
+                    <input type="checkbox" data-id="{{ $room->room_id }}" class="m-4 roomCheckBox">
                 </div>
                 <img src="{{ asset('/images/' . $room->room_photo) }}" alt="" class="mb-2">
                 <div class="p-5">
@@ -176,4 +168,29 @@
         @endforeach
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        var roomIds = [];
+        $(document).on('click', '.roomCheckBox', function() {
+            var dataId = $(this).attr('data-id');
+            var isChecked = $(this).hasClass('checked');
+
+            if (isChecked) {
+                // Remove the dataId from the array
+                roomIds = roomIds.filter(id => id !== dataId);
+            } else {
+                // Add the dataId to the array
+                roomIds.push(dataId);
+            }
+
+            // Toggle the 'checked' class
+            $(this).toggleClass('checked');
+            // Update the hidden input value with the comma-separated room IDs
+            $('#roomIds').val();
+            $('#roomIds').val(roomIds.join(','));
+        });
+    </script>
 @endsection
