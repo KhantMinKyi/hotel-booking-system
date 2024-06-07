@@ -44,16 +44,19 @@ class Room extends Model
             ->get();
 
         $booked_rooms = RoomBooking::with('room')
+            ->where('status', '!=', 'cancel')
+            ->where('status', '!=', 'user_cancel')
             ->where(function ($query) use ($from_date, $to_date) {
-                $query->whereBetween('from_date', [$from_date, $to_date])
-                    ->orWhere(function ($query) use ($from_date, $to_date) {
-                        $query->where('from_date', '=', $from_date)
-                            ->where('to_date', '!=', $to_date);
-                    });
+                $query->where(function ($query) use ($from_date, $to_date) {
+                    $query->whereBetween('from_date', [$from_date, $to_date])
+                        ->orWhereBetween('to_date', [$from_date, $to_date]);
+                })->orWhere(function ($query) use ($from_date, $to_date) {
+                    $query->where('from_date', '<=', $from_date)
+                        ->where('to_date', '>=', $to_date);
+                });
             })
-            ->where('from_date', '!=', $to_date)
-            ->where('status', 'approved')
-            ->get()->groupBy('room_id');
+            ->get()
+            ->groupBy('room_id');
 
         $room_data_array = [];
         foreach ($rooms as $room) {

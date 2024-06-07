@@ -6,6 +6,7 @@ use App\Models\Room;
 use App\Models\RoomBooking;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoomBookingController extends Controller
 {
@@ -14,6 +15,9 @@ class RoomBookingController extends Controller
      */
     public function index()
     {
+        $bookings = RoomBooking::with('room')->where('user_id', Auth::user()->id)->orderBy('from_date', 'desc')->paginate(5);
+        // return $bookings;
+        return view('user.user_room_booking.user_room_booking_list', compact('bookings'));
     }
 
     /**
@@ -61,7 +65,7 @@ class RoomBookingController extends Controller
             $validated['room_id'] = $room_id;
             RoomBooking::create($validated);
         }
-        return redirect()->route('user.index');
+        return redirect()->route('user_room_booking.index');
     }
 
     /**
@@ -69,7 +73,9 @@ class RoomBookingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $room_booking = RoomBooking::with('room')->find($id);
+        // return $room_booking;
+        return view('user.user_room_booking.user_room_booking_detail', compact('room_booking'));
     }
 
     /**
@@ -102,18 +108,21 @@ class RoomBookingController extends Controller
         $to_date = $request->end;
         $room_count = $request->room_count;
         $booked_rooms = RoomBooking::with('room')
-            ->where(function ($query) use ($from_date, $to_date) {
-                $query->whereBetween('from_date', [$from_date, $to_date])
-                    ->orWhere(function ($query) use ($from_date, $to_date) {
-                        $query->where('from_date', '=', $from_date)
-                            ->where('to_date', '!=', $to_date);
-                    });
-            })
-            ->where('from_date', '!=', $to_date)
             ->where('status', '!=', 'cancel')
-            ->orWhere('status', '!=', 'user_cancel')
-            ->get()->groupBy('room_id');
+            ->where('status', '!=', 'user_cancel')
+            ->where(function ($query) use ($from_date, $to_date) {
+                $query->where(function ($query) use ($from_date, $to_date) {
+                    $query->whereBetween('from_date', [$from_date, $to_date])
+                        ->orWhereBetween('to_date', [$from_date, $to_date]);
+                })->orWhere(function ($query) use ($from_date, $to_date) {
+                    $query->where('from_date', '<=', $from_date)
+                        ->where('to_date', '>=', $to_date);
+                });
+            })
+            ->get()
+            ->groupBy('room_id');
         $data = [];
+        // return $booked_rooms;
         $room_types = RoomType::with('rooms')->get();
 
         // Get all Room Type
@@ -181,17 +190,19 @@ class RoomBookingController extends Controller
             ->get();
 
         $booked_rooms = RoomBooking::with('room')
-            ->where(function ($query) use ($from_date, $to_date) {
-                $query->whereBetween('from_date', [$from_date, $to_date])
-                    ->orWhere(function ($query) use ($from_date, $to_date) {
-                        $query->where('from_date', '=', $from_date)
-                            ->where('to_date', '!=', $to_date);
-                    });
-            })
-            ->where('from_date', '!=', $to_date)
             ->where('status', '!=', 'cancel')
-            ->orWhere('status', '!=', 'user_cancel')
-            ->get()->groupBy('room_id');
+            ->where('status', '!=', 'user_cancel')
+            ->where(function ($query) use ($from_date, $to_date) {
+                $query->where(function ($query) use ($from_date, $to_date) {
+                    $query->whereBetween('from_date', [$from_date, $to_date])
+                        ->orWhereBetween('to_date', [$from_date, $to_date]);
+                })->orWhere(function ($query) use ($from_date, $to_date) {
+                    $query->where('from_date', '<=', $from_date)
+                        ->where('to_date', '>=', $to_date);
+                });
+            })
+            ->get()
+            ->groupBy('room_id');
 
         $room_data_array = [];
         foreach ($rooms as $room) {
