@@ -20,9 +20,11 @@ return new class extends Migration
             $table->date('from_date');
             $table->date('to_date');
             $table->integer('created_user_id');
-            $table->enum('status', ['cancel', 'approved', 'user_cancel', 'pending']);
-            $table->string('deposit_type');
+            $table->enum('status', ['cancel', 'approved', 'user_cancel', 'pending'])->default('pending');
             $table->integer('deposit_amount');
+            $table->string('deposit_type');
+            $table->string('payment_type');
+            $table->string('reciver_account');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use App\Models\RoomBooking;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
@@ -18,9 +19,21 @@ class RoomBookingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $room_ids = explode(',', $request->room_ids);
+        if ($room_ids[0] == '') {
+            return redirect()->back();
+        }
+        $rooms = [];
+        foreach ($room_ids as $room_id) {
+            $room = Room::find($room_id);
+            array_push($rooms, $room);
+        }
+        // return $rooms;
+        return view('user.user_room_list.user_room_list_booking_create', compact('from_date', 'to_date', 'rooms'));
     }
 
     /**
@@ -28,7 +41,27 @@ class RoomBookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'booking_user_name' => 'required',
+            'booking_user_phone' => 'required',
+            'from_date' => 'required',
+            'to_date' => 'required',
+            'user_id' => 'nullable',
+            'created_user_id' => 'required',
+            'deposit_type' => 'required',
+            'deposit_amount' => 'required',
+            'room_ids' => 'required',
+            'payment_type' => 'required',
+            'reciver_account' => 'required',
+        ]);
+        $validated['status'] = 'pending';
+        $room_id_array = explode(',', $validated['room_ids']);
+        // return $room_id_array;
+        foreach ($room_id_array as $room_id) {
+            $validated['room_id'] = $room_id;
+            RoomBooking::create($validated);
+        }
+        return redirect()->route('user.index');
     }
 
     /**
@@ -77,6 +110,8 @@ class RoomBookingController extends Controller
                     });
             })
             ->where('from_date', '!=', $to_date)
+            ->where('status', '!=', 'cancel')
+            ->orWhere('status', '!=', 'user_cancel')
             ->get()->groupBy('room_id');
         $data = [];
         $room_types = RoomType::with('rooms')->get();
@@ -154,7 +189,8 @@ class RoomBookingController extends Controller
                     });
             })
             ->where('from_date', '!=', $to_date)
-            ->where('status', 'approved')
+            ->where('status', '!=', 'cancel')
+            ->orWhere('status', '!=', 'user_cancel')
             ->get()->groupBy('room_id');
 
         $room_data_array = [];
@@ -163,7 +199,7 @@ class RoomBookingController extends Controller
                 $room_data_array[] = $converted_room_data;
             }
         }
-
+        // return $booked_rooms;
         foreach ($booked_rooms as $room_id => $booked_room) {
             foreach ($room_data_array as $key => $room_data) {
                 if ($room_data->room_id == $room_id) {

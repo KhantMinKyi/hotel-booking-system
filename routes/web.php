@@ -52,7 +52,7 @@ Route::prefix('user')->group(function () {
         Route::resource('user_room_booking', RoomBookingController::class);
         Route::post('user_room_booking/search_view', [RoomBookingController::class, 'searchRoom'])->name('user_room_booking.search_view');
         Route::post('user_room_booking/search_room_price_view', [RoomBookingController::class, 'searchRoomPriceView'])->name('user_room_booking.search_room_price_view');
-        Route::post('user_room_list/room_type_detail', [UserRoomListController::class, 'roomTypeDetail'])->name('user_room_list.roomTypeDetail');
+        Route::get('user_room_list_room/room_type_detail', [UserRoomListController::class, 'roomTypeDetail'])->name('user_room_list.roomTypeDetail');
     });
 });
 

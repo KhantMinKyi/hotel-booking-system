@@ -89,8 +89,8 @@
                     </p>
                     <p class="mb-3 font-normal text-green-700 dark:text-gray-400">Available Rooms -
                         {{ $room_data['total_room_count'] - $room_data['booked_room_count'] }}</p>
-                    <form action="{{ route('user_room_list.roomTypeDetail') }}" method="POST">
-                        @csrf
+                    <form action="{{ route('user_room_list.roomTypeDetail') }}" method="GET">
+
                         <input type="hidden" name="from_date" value="{{ $room_data['from_date'] }}">
                         <input type="hidden" name="to_date" value="{{ $room_data['to_date'] }}">
                         <input type="hidden" name="room_type_id" value="{{ $room_data['room_type_data']->room_type_id }}">

@@ -20,6 +20,8 @@ class RoomBooking extends Model
         'status',
         'deposit_type',
         'deposit_amount',
+        'payment_type',
+        'reciver_account',
     ];
     public function room()
     {

@@ -96,16 +96,32 @@ class UserRoomListController extends Controller
         //     'from_date' => $from_date,
         //     'to_date' => $to_date,
         // ]);
-        $rooms['rooms'][0]['from_date'] = $from_date;
-        $rooms['rooms'][0]['to_date'] = $to_date;
+        // $rooms['rooms'][0]['from_date'] = $from_date;
+        // $rooms['rooms'][0]['to_date'] = $to_date;
+        // foreach ($booked_rooms as $room_id => $booked_room) {
+        //     foreach ($rooms['rooms'] as $key => $room) {
+        //         if ($room->room_id == $room_id) {
+        //             unset($rooms['rooms'][$key]);
+        //         }
+        //     }
+        // }
+
+        $room_data_array = [];
+        foreach ($rooms['rooms'] as $converted_room_data) {
+            $room_data_array[] = $converted_room_data;
+        }
         foreach ($booked_rooms as $room_id => $booked_room) {
-            foreach ($rooms['rooms'] as $key => $room) {
-                if ($room->room_id == $room_id) {
-                    unset($rooms['rooms'][$key]);
+            foreach ($room_data_array as $key => $room_data) {
+                if ($room_data->room_id == $room_id) {
+                    unset($room_data_array[$key]);
                 }
             }
         }
-        // return $rooms;
-        return view('user.user_room_list.user_room_list_room_type_detail', compact('rooms'));
+        $room_data = [];
+        $room_data['rooms'] = array_values($room_data_array);
+        $room_data['type']['from_date'] = $from_date;
+        $room_data['type']['to_date'] = $to_date;
+        // return $room_data;
+        return view('user.user_room_list.user_room_list_room_type_detail', compact('room_data'));
     }
 }
