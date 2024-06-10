@@ -36,6 +36,8 @@ Route::prefix('admin')->group(function () {
         Route::resource('room_type', RoomTypeController::class);
         Route::resource('room', RoomController::class);
         Route::resource('user_list', UserController::class);
+        Route::get('booking_confrim/{room_booking}', [RoomBookingController::class, 'adminBookingConfirmShow'])->name('admin.bookingConfrimShow');
+        Route::put('booking_confrim/{room_booking}', [RoomBookingController::class, 'adminBookingConfirm'])->name('admin.adminBookingConfirm');
     });
 });
 

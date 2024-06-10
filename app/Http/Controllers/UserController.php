@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RoomBooking;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -108,8 +109,18 @@ class UserController extends Controller
     public function userAccountDetail()
     {
         $user = Auth::user();
-        $user_bookings = RoomBooking::with('room')->where('user_id', $user->id)
-            ->where('status', 'approved')->orderBy('from_date', 'desc')->paginate(5);
+        $bookings = RoomBooking::with('room')->where('user_id', $user->id)
+            ->where('status', 'approved')->orderBy('from_date', 'asc')->get()->groupBy('user_room_booking_id');
+        $collection = collect($bookings);
+
+        // Step 3: Paginate the Collection
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5; // Number of items per page
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $user_bookings = new LengthAwarePaginator($currentPageItems, $collection->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
         // return $user_bookings;
         return view('user.account.user_account', compact('user', 'user_bookings'));
     }

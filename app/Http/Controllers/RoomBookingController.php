@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\RoomBooking;
 use App\Models\RoomType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class RoomBookingController extends Controller
@@ -15,11 +17,45 @@ class RoomBookingController extends Controller
      */
     public function index()
     {
-        $bookings = RoomBooking::with('room')->where('user_id', Auth::user()->id)->orderBy('from_date', 'desc')->paginate(5);
+        $bookings = RoomBooking::with('room')->where('user_id', Auth::user()->id)->orderBy('from_date', 'desc')->get()->groupBy('user_room_booking_id');
+
+        $collection = collect($bookings);
+
+        // Step 3: Paginate the Collection
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5; // Number of items per page
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $bookings = new LengthAwarePaginator($currentPageItems, $collection->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
+
         // return $bookings;
         return view('user.user_room_booking.user_room_booking_list', compact('bookings'));
     }
 
+    public function adminBookingConfirmShow($id)
+    {
+        $booking = RoomBooking::find($id);
+        $room_bookings =  RoomBooking::with('room')->where('user_room_booking_id', $booking->user_room_booking_id)->get();
+        // return $room_bookings;
+        return view('admin.booking.booking_confirm', compact('room_bookings'));
+    }
+    public function adminBookingConfirm(Request $request, $id)
+    {
+        $booking = RoomBooking::find($id);
+        if (!$booking) {
+            return redirect()->back();
+        }
+        $room_bookings =  RoomBooking::with('room')->where('user_room_booking_id', $booking->user_room_booking_id)->get();
+        foreach ($room_bookings as $room) {
+            $room->update([
+                'status' => $request->status
+            ]);
+        }
+        // return $request;
+        return redirect()->route('admin.index');
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -59,8 +95,10 @@ class RoomBookingController extends Controller
             'reciver_account' => 'required',
         ]);
         $validated['status'] = 'pending';
+
+        $validated['user_room_booking_id'] = $validated['user_id'] . $validated['booking_user_phone'] . Carbon::now()->format('h_i_s');
         $room_id_array = explode(',', $validated['room_ids']);
-        // return $room_id_array;
+        // return $validated['user_room_booking_id'];
         foreach ($room_id_array as $room_id) {
             $validated['room_id'] = $room_id;
             RoomBooking::create($validated);
@@ -74,8 +112,9 @@ class RoomBookingController extends Controller
     public function show(string $id)
     {
         $room_booking = RoomBooking::with('room')->find($id);
+        $room_bookings = RoomBooking::with('room')->where('user_room_booking_id', $room_booking->user_room_booking_id)->get();
         // return $room_booking;
-        return view('user.user_room_booking.user_room_booking_detail', compact('room_booking'));
+        return view('user.user_room_booking.user_room_booking_detail', compact('room_bookings'));
     }
 
     /**

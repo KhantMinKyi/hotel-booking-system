@@ -28,6 +28,9 @@ return new class extends Migration
             $table->boolean('corridor_available')->default(0);
             $table->boolean('can_smoke')->default(0);
             $table->boolean('is_smart_tv')->default(0);
+            $table->boolean('system_score')->default(0);
+            $table->boolean('review_score')->default(0);
+            $table->boolean('total_score')->default(0);
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@ class RoomBooking extends Model
     protected $primaryKey = 'room_booking_id';
     use HasFactory;
     protected $fillable = [
+        'user_room_booking_id',
         'room_id',
         'user_id',
         'booking_user_name',
