@@ -26,7 +26,8 @@ class Room extends Model
         'corridor_available',
         'can_smoke',
         'is_smart_tv',
-        'total_score',
+        'admin_score',
+        'system_score',
         'review_score',
         'total_score',
     ];
