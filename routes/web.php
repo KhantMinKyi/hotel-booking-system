@@ -53,6 +53,11 @@ Route::prefix('user')->group(function () {
         Route::post('user_room_booking/search_view', [RoomBookingController::class, 'searchRoom'])->name('user_room_booking.search_view');
         Route::post('user_room_booking/search_room_price_view', [RoomBookingController::class, 'searchRoomPriceView'])->name('user_room_booking.search_room_price_view');
         Route::get('user_room_list_room/room_type_detail', [UserRoomListController::class, 'roomTypeDetail'])->name('user_room_list.roomTypeDetail');
+        Route::get('user_account', [UserController::class, 'userAccountDetail'])->name('user.user_account');
+        Route::get('user_edit', [UserController::class, 'userEdit'])->name('user.user_edit');
+        Route::put('user_update', [UserController::class, 'userUpdate'])->name('user.user_update');
+        Route::get('user_change_password', [UserController::class, 'userChangePasswordShow'])->name('user.user_change_password_show');
+        Route::put('user_password_update', [UserController::class, 'userPasswordUpdate'])->name('user.user_password_update');
     });
 });
 

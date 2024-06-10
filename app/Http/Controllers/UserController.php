@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RoomBooking;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -101,5 +104,65 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function userAccountDetail()
+    {
+        $user = Auth::user();
+        $user_bookings = RoomBooking::with('room')->where('user_id', $user->id)
+            ->where('status', 'approved')->orderBy('from_date', 'desc')->paginate(5);
+        // return $user_bookings;
+        return view('user.account.user_account', compact('user', 'user_bookings'));
+    }
+
+    public function userEdit()
+    {
+        $user = User::find(Auth::user()->id);
+        if (!$user) {
+            return redirect()->back();
+        }
+        return view('user.account.user_account_edit', compact('user'));
+    }
+    public function userChangePasswordShow()
+    {
+        return view('user.account.user_account_change_password');
+    }
+    public function userUpdate(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        if (!$user) {
+            return redirect()->back();
+        }
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'username' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+        ]);
+        // return $validated;
+        $user->update($validated);
+        return redirect()->route('user.user_account');
+    }
+    public function userPasswordUpdate(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        if (!$user) {
+            return redirect()->back();
+        }
+        // return $request;
+        $validated = $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string',
+            'confirm_new_password' => 'required|string',
+        ]);
+        if (!Hash::check($validated['old_password'], $user->password)) {
+            return redirect()->back()->with('error', 'Old Password is Wrong , Try Again!');
+        } else {
+            if ($validated['new_password'] != $validated['confirm_new_password']) {
+                return redirect()->back()->with('error', 'Password Should Be The Same , Try Again!');
+            }
+        }
+        $validated['password'] = bcrypt($validated['new_password']);
+        $user->update($validated);
+        return redirect()->route('user.user_account');
     }
 }
