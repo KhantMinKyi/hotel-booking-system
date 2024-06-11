@@ -37,9 +37,9 @@ class RoomController extends Controller
     {
         // Start WSM Algorithm
         $total_predefine_weight = [
-            'admin_max_score' => 2.5,
+            'admin_max_score' => 3.5,
             'system_max_score' => 3.5,
-            'user_max_score' => 4,
+            'user_max_score' => 3,
         ];
         $total_weight = [
             'admin_score' => 0,
@@ -237,14 +237,15 @@ class RoomController extends Controller
             'is_smart_tv' => 'required|numeric',
             'room_photo' => 'required|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-        // $image = $request->file('room_photo');
-        // $image_name = uniqid() . $image->getClientOriginalName();
-        // $image->move(public_path('/images'), $image_name);
-        // $validated['room_photo'] = $image_name;
+        $image = $request->file('room_photo');
+        $image_name = uniqid() . $image->getClientOriginalName();
+        $image->move(public_path('/images'), $image_name);
+        $validated['room_photo'] = $image_name;
         // return $validated;
         $total_weight = $this->WeightSumMethodAlogrithm($validated);
         $validated['admin_score'] = $total_weight['admin_score'];
         $validated['system_score'] = $total_weight['system_score'];
+        $validated['total_score'] = $validated['admin_score'] + $validated['system_score'];
         // return $validated;
         // End WSM Algorithm
         Room::create($validated);
@@ -311,6 +312,10 @@ class RoomController extends Controller
             'is_smart_tv' => 'required|numeric',
         ]);
         $validated['room_photo'] = $file_name;
+        $total_weight = $this->WeightSumMethodAlogrithm($validated);
+        $validated['admin_score'] = $total_weight['admin_score'];
+        $validated['system_score'] = $total_weight['system_score'];
+        $validated['total_score'] = $validated['admin_score'] + $validated['system_score'];
         $room->update($validated);
         return redirect()->route('room.index');
     }

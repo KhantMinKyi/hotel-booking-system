@@ -16,6 +16,6 @@ class RoomType extends Model
     ];
     public function rooms()
     {
-        return $this->hasMany(Room::class, 'room_type_id')->with('room_type');
+        return $this->hasMany(Room::class, 'room_type_id')->with('room_type')->orderBy('total_score', 'desc');
     }
 }

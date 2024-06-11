@@ -31,6 +31,12 @@
     <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
 
         @foreach ($room_data['rooms'] as $room)
+            @php
+                $total_score = $room->total_score;
+                $average_score = round($total_score * 0.5, 2);
+                [$whole_number, $point_number] = explode('.', $average_score);
+                // $remain_whole_numeber = 5 - $whole_number;
+            @endphp
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex justify-between bg-gray-50 rounded-t-md">
                     <a href="#">
@@ -48,11 +54,15 @@
                             {{ $room->room_type->room_type }}
                         </span>
                         <div>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star-half-stroke"></i>
-                            <i class="fa-regular fa-star"></i>
+                            @for ($i = 0; $i < $whole_number; $i++)
+                                <i class="fa-solid fa-star"></i>
+                            @endfor
+                            @if ($point_number >= 5)
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            @endif
+                            <span class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{ $average_score }}
+                                out
+                                of 5</span>
                         </div>
                         <div class="mb-2">
                             <p class="mb-2 text-lg font-bold text-gray-700 dark:text-gray-400">Amenities</p>
