@@ -1,6 +1,17 @@
-@extends('admin.layout')
+@extends('user.layout')
 
 @section('content')
+    <style>
+        .star {
+            font-size: 2rem;
+            color: grey;
+            cursor: pointer;
+        }
+
+        .star.selected {
+            color: gold;
+        }
+    </style>
     <div class="flex justify-center mt-4">
         <div>
             @php
@@ -9,7 +20,7 @@
                 [$whole_number, $point_number] = explode('.', $average_score);
                 // $remain_whole_numeber = 5 - $whole_number;
             @endphp
-            <a href="#"
+            <div
                 class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                 {{-- <img style="width: 100px" class="m-4" src="{{ asset('hotel_logo.png') }}" alt=""> --}}
                 <div class="flex flex-col justify-between leading-normal">
@@ -142,9 +153,51 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                    <form action="{{ route('user_room_review.store') }}" method="POST">
+                        @csrf
+                        <div class="flex justify-center text-lg font-bold">
+                            Rate Us !
+                        </div>
+                        <div id="star-rating" class="flex justify-center">
+                            <span class="star" data-value="0.5">&#9733;</span>
+                            <span class="star" data-value="1.0">&#9733;</span>
+                            <span class="star" data-value="1.5">&#9733;</span>
+                            <span class="star" data-value="2.0">&#9733;</span>
+                            <span class="star" data-value="2.5">&#9733;</span>
+                            <span class="star" data-value="3.0">&#9733;</span>
+                            <span class="star" data-value="3.5">&#9733;</span>
+                            <span class="star" data-value="4.0">&#9733;</span>
+                            <span class="star" data-value="4.5">&#9733;</span>
+                            <span class="star" data-value="5.0">&#9733;</span>
+                        </div>
+                        <input type="hidden" id="rating-value" name="total_score">
+                        <input type="hidden" id="room_id" name="room_id" value="{{ $room->room_id }}">
+                        <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
+                        <div class=" flex justify-center">
+                            <button type="submit"
+                                class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mt-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Rate
+                                This Room Now!</button>
+                        </div>
 
+                </div>
+                </form>
+            </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).on('click', '.star', function() {
+            var rating = $(this).data('value');
+            $('#rating-value').val(rating);
+
+            $('.star').removeClass('selected');
+            $('.star').each(function() {
+                if ($(this).data('value') <= rating) {
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
 @endsection

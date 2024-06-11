@@ -315,7 +315,7 @@ class RoomController extends Controller
         $total_weight = $this->WeightSumMethodAlogrithm($validated);
         $validated['admin_score'] = $total_weight['admin_score'];
         $validated['system_score'] = $total_weight['system_score'];
-        $validated['total_score'] = $validated['admin_score'] + $validated['system_score'];
+        $validated['total_score'] = $validated['admin_score'] + $validated['system_score'] + $room->review_score;
         $room->update($validated);
         return redirect()->route('room.index');
     }

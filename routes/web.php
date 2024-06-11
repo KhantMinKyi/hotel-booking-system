@@ -3,6 +3,7 @@
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoomBookingController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
@@ -52,6 +53,7 @@ Route::prefix('user')->group(function () {
         Route::get('/', [UserRoomListController::class, 'userDashboard'])->name('user.index');
         Route::resource('user_room_list', UserRoomListController::class);
         Route::resource('user_room_booking', RoomBookingController::class);
+        Route::resource('user_room_review', ReviewController::class);
         Route::post('user_room_booking/search_view', [RoomBookingController::class, 'searchRoom'])->name('user_room_booking.search_view');
         Route::post('user_room_booking/search_room_price_view', [RoomBookingController::class, 'searchRoomPriceView'])->name('user_room_booking.search_room_price_view');
         Route::get('user_room_list_room/room_type_detail', [UserRoomListController::class, 'roomTypeDetail'])->name('user_room_list.roomTypeDetail');
