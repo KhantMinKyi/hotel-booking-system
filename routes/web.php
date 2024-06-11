@@ -52,6 +52,10 @@ Route::prefix('user')->group(function () {
     Route::get('/login-form', function () {
         return view('user.login');
     });
+    Route::get('/signup', function () {
+        return view('user.signup');
+    })->name('user.signup');
+    Route::post('/user_store', [UserController::class, 'userStore'])->name('user.user_store');
     Route::post('/login', [AuthController::class, 'userLogin']);
     // User Middleware
     Route::middleware('is_user')->group(function () {

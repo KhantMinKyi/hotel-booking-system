@@ -20,7 +20,7 @@ class RoomAnalysisController extends Controller
                 'total_score' => round($room->total_score, 2),
             ]);
         }
-        $room_bookings = RoomBooking::where('status', 'approved')
+        $room_bookings = RoomBooking::with('room')->where('status', 'approved')
             ->when($start_date, function ($query, $start_date) {
                 return $query->where('from_date', '>=', $start_date);
             })
@@ -32,7 +32,7 @@ class RoomAnalysisController extends Controller
         $room_booking_array = [];
         foreach ($room_bookings as $key => $room_booking) {
             array_push($room_booking_array, [
-                'room_number' => $room->room_number,
+                'room_number' => $room_booking[0]->room->room_number,
                 'booking_count' => count($room_booking),
             ]);
         }

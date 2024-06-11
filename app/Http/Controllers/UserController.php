@@ -39,10 +39,10 @@ class UserController extends Controller
             'name' => 'required|string',
             'username' => 'required|string',
             'email' => 'required|email',
-            'dob' => 'required|date',
-            'address' => 'required|string',
-            'nrc' => 'required|string',
-            'gender' => 'required|string',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string',
+            'nrc' => 'nullable|string',
+            'gender' => 'nullable|string',
             'phone' => 'required|string',
         ]);
         $validated['password'] = bcrypt($request->password);
@@ -175,5 +175,19 @@ class UserController extends Controller
         $validated['password'] = bcrypt($validated['new_password']);
         $user->update($validated);
         return redirect()->route('user.user_account');
+    }
+    public function userStore(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'username' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+        ]);
+        $validated['password'] = bcrypt($request->password);
+        $validated['type'] = 'user';
+        User::create($validated);
+        return redirect()->route('welcome.index');
+        // return $validated;
     }
 }

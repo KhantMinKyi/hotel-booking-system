@@ -9,7 +9,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-cyan-100">
+<body
+    style="background: url('{{ asset('signup.jpg') }}') no-repeat center center fixed; background-size: cover; background-color: rgba(0, 255, 255, 0.7);">
 
     <div class="grid grid-cols-3 mt-20">
         <div class="col-span-2"></div>
@@ -36,7 +37,8 @@
                     class="w-full text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">Login
                     to your account</button>
                 <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                    Not registered? <a href="#" class="text-cyan-700 hover:underline dark:text-cyan-500">Create
+                    Not registered? <a href="{{ route('user.signup') }}"
+                        class="text-cyan-700 hover:underline dark:text-cyan-500">Create
                         account</a>
                 </div>
             </form>
