@@ -1,6 +1,9 @@
 @extends('admin.layout')
 
 @section('content')
+    @php
+        use Carbon\Carbon;
+    @endphp
     <div class="m-4">
         <div class=" flex justify-center mt-6 mb-4 text-lg font-bold">
             <h1>Booking List</h1>
@@ -87,11 +90,18 @@
         </div>
         <div class="my-4 flex justify-end">
             <div>
-                <button type="button"
-                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                    <i class="fa-solid fa-circle-check w-3 h-3 me-2"></i>
-                    Book Rooms
-                </button>
+                <form action="{{ route('admin.room_booking.create') }}" method="GET" id="roomIdsContainer">
+                    <input type="hidden" name="from_date" id="" value="{{ Carbon::now()->format('Y-m-d') }}">
+                    <input type="hidden" name="to_date" id=""
+                        value="{{ Carbon::now()->addDay()->format('Y-m-d') }}">
+                    <input type="hidden" name="room_ids" id="roomIds">
+                    {{-- <input type="hidden" name="room_ids" id="roomIds" value=""> --}}
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                        <i class="fa-solid fa-circle-check w-3 h-3 me-2"></i>
+                        Book Rooms
+                    </button>
+                </form>
             </div>
         </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -126,7 +136,8 @@
                     @foreach ($rooms['rooms'] as $room)
                         <tr
                             class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                            <td class="pl-4"><input type="checkbox"></td>
+                            <td class="pl-4"><input class="roomCheckBox" type="checkbox" data-id="{{ $room->room_id }}">
+                            </td>
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $room->room_number }}
@@ -157,4 +168,29 @@
             </table>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        var roomIds = [];
+        $(document).on('click', '.roomCheckBox', function() {
+            var dataId = $(this).attr('data-id');
+            var isChecked = $(this).hasClass('checked');
+
+            if (isChecked) {
+                // Remove the dataId from the array
+                roomIds = roomIds.filter(id => id !== dataId);
+            } else {
+                // Add the dataId to the array
+                roomIds.push(dataId);
+            }
+
+            // Toggle the 'checked' class
+            $(this).toggleClass('checked');
+            // Update the hidden input value with the comma-separated room IDs
+            $('#roomIds').val();
+            $('#roomIds').val(roomIds.join(','));
+        });
+    </script>
 @endsection

@@ -33,12 +33,15 @@ Route::prefix('admin')->group(function () {
     // Admin Middleware
     Route::middleware('is_admin')->group(function () {
         Route::get('/', [LocationController::class, 'adminDashboard'])->name('admin.index');
+        Route::get('/booking_list', [LocationController::class, 'adminBookingList'])->name('admin.booking_list');
         Route::resource('amenity', AmenityController::class);
         Route::resource('room_type', RoomTypeController::class);
         Route::resource('room', RoomController::class);
         Route::resource('user_list', UserController::class);
         Route::get('booking_confrim/{room_booking}', [RoomBookingController::class, 'adminBookingConfirmShow'])->name('admin.bookingConfrimShow');
         Route::put('booking_confrim/{room_booking}', [RoomBookingController::class, 'adminBookingConfirm'])->name('admin.adminBookingConfirm');
+        Route::get('room_booking_create', [RoomBookingController::class, 'bookingCreate'])->name('admin.room_booking.create');
+        Route::post('room_booking_store', [RoomBookingController::class, 'bookingStore'])->name('admin_room_booking.store');
     });
 });
 

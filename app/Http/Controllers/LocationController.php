@@ -27,4 +27,21 @@ class LocationController extends Controller
         // return $bookings;
         return view('admin.dashboard', compact('bookings', 'rooms'));
     }
+
+    public function adminBookingList()
+    {
+        $bookings = RoomBooking::with('room')->orderBy('from_date', 'asc')->get()->groupBy('user_room_booking_id');
+        $collection = collect($bookings);
+
+        // Step 3: Paginate the Collection
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10; // Number of items per page
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $bookings = new LengthAwarePaginator($currentPageItems, $collection->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
+        // return $bookings;
+        return view('admin.booking.booking_list', compact('bookings'));
+    }
 }
