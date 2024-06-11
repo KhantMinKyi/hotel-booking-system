@@ -4,6 +4,7 @@ use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RoomAnalysisController;
 use App\Http\Controllers\RoomBookingController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
@@ -42,6 +43,7 @@ Route::prefix('admin')->group(function () {
         Route::put('booking_confrim/{room_booking}', [RoomBookingController::class, 'adminBookingConfirm'])->name('admin.adminBookingConfirm');
         Route::get('room_booking_create', [RoomBookingController::class, 'bookingCreate'])->name('admin.room_booking.create');
         Route::post('room_booking_store', [RoomBookingController::class, 'bookingStore'])->name('admin_room_booking.store');
+        Route::get('room_analysis', [RoomAnalysisController::class, 'roomAnalysisList'])->name('admin.room_analysis.index');
     });
 });
 

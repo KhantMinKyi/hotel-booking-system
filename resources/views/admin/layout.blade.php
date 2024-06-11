@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -58,7 +60,7 @@
                             </svg>
                         </button>
                         <div id="mega-menu-icons-dropdown"
-                            class="absolute z-10 grid hidden w-auto grid-cols-2 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
+                            class="absolute z-10 hidden w-auto grid-cols-2 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
                             <div class="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
                                 <ul class="space-y-4" aria-labelledby="mega-menu-icons-dropdown-button">
                                     <li>
@@ -111,6 +113,19 @@
 
                                 </ul>
                             </div>
+                            <div class="p-4 text-gray-900 dark:text-white">
+                                <ul class="space-y-4">
+                                    <li>
+                                        <a href="{{ route('admin.room_analysis.index') }}"
+                                            class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group">
+                                            <span class="sr-only">Room Analysis</span>
+                                            <i class="fa-solid fa-chart-line me-2"></i>
+                                            Room Analysis
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </div>
                     </li>
                     <li>
@@ -125,5 +140,6 @@
     @yield('content')
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </html>
