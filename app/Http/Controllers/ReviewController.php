@@ -14,7 +14,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with('room_type')->orderBy('total_score', 'desc')->paginate(1);
+        $rooms = Room::with('room_type')->orderBy('total_score', 'desc')->paginate(10);
         return view('user.room_review.room_list', compact('rooms'));
     }
 

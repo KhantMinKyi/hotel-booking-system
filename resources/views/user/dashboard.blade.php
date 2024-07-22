@@ -1,7 +1,10 @@
 @extends('user.layout')
 
 @section('content')
-    <div class="grid gap-2 grid-cols-3 mt-10 pl-6">
+    <div>
+        <h1 class="text-center font-bold text-xl mt-4 ">Top Rating Rooms!</h1>
+    </div>
+    <div class="grid gap-2 grid-cols-3 mt-5 pl-6">
 
         @foreach ($rooms as $room)
             @php
@@ -10,7 +13,8 @@
                 [$whole_number, $point_number] = explode('.', $average_score);
                 // $remain_whole_numeber = 5 - $whole_number;
             @endphp
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div
+                class="max-w-sm my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
                     <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
                 </a>
@@ -33,7 +37,7 @@
                             <span class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{ $average_score }} out
                                 of 5</span>
                         </div>
-                        <div class="mb-2">
+                        {{-- <div class="mb-2">
                             <p class="mb-2 text-lg font-bold text-gray-700 dark:text-gray-400">Amenities</p>
                             <span>
                                 {{ $room->amenity->amenity_description }}
@@ -46,7 +50,7 @@
                                 {{ $room->accessibility }}
                             </span>
                             <hr class="mt-1">
-                        </div>
+                        </div> --}}
                         <div class="mb-2">
                             <p class="mb-1 font-bold text-lg">Room Size</p>
                             <span>
@@ -145,6 +149,8 @@
                 </div>
             </div>
         @endforeach
-
+    </div>
+    <div class="bg-gray-100 p-3 mt-3">
+        {{ $rooms->links() }}
     </div>
 @endsection

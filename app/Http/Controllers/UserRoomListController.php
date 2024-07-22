@@ -19,7 +19,7 @@ class UserRoomListController extends Controller
     }
     public function userDashboard()
     {
-        $rooms = Room::with('room_type')->orderBy('total_score', 'desc')->limit(3)->get();
+        $rooms = Room::with('room_type')->orderBy('total_score', 'desc')->paginate(6);
 
         return view('user.dashboard', compact('rooms'));
     }
