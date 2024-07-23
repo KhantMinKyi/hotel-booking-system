@@ -80,7 +80,7 @@
                             {{ $room_type->rooms->count() }}</p>
                         <hr class="my-2">
                     </div>
-                    <div>
+                    {{-- <div>
                         <p class="mb-1 text-xl font-bold text-gray-700 dark:text-gray-400">Accessibility -
                         </p>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -89,7 +89,7 @@
                             @endif
                         </p>
                         <hr class="my-2">
-                    </div>
+                    </div> --}}
                     <div>
                         <p class="mb-1 text-xl font-bold text-gray-700 dark:text-gray-400">Amenities -
                         </p>
