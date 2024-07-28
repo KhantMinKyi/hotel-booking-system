@@ -59,6 +59,9 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [AuthController::class, 'userLogin']);
     // User Middleware
     Route::middleware('is_user')->group(function () {
+        Route::get('/hotel_about', function () {
+            return view('user.hotel_about');
+        })->name('hotel_about.index');
         Route::get('/', [UserRoomListController::class, 'userDashboard'])->name('user.index');
         Route::resource('user_room_list', UserRoomListController::class);
         Route::resource('user_room_booking', RoomBookingController::class);
@@ -73,5 +76,7 @@ Route::prefix('user')->group(function () {
         Route::put('user_password_update', [UserController::class, 'userPasswordUpdate'])->name('user.user_password_update');
     });
 });
-
+Route::get('/hotel_about', function () {
+    return view('hotel_about');
+});
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
